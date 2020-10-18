@@ -1,6 +1,6 @@
-import react from 'react';
+import React from 'react';
 
-const StarMatch = () => {
+function StarMatch() {
     return (
         <div className="game">
             <div className="help">
@@ -34,3 +34,5 @@ const StarMatch = () => {
         </div>
     )
 }
+
+export default StarMatch;
