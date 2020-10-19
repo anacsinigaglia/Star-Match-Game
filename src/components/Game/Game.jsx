@@ -1,24 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { utils } from '../const/utils';
 import PlayAgain from '../PlayAgain/PlayAgain';
 import PlayNumber from '../PlayNumber/PlayNumber';
 import StarsDisplay from '../StarsDisplay/StarsDisplay';
-import './StarMatch.scss';
+import './Game.scss';
 
-function StarMatch() {
+function Game(props) {
     const [stars, setStars] = useState(utils.random(1, 9));
-
     const [availableNums, setAvailableNums] = useState(utils.range(1, 9));
     const [candidateNums, setCandidateNums] = useState([]);
+    const [secondsLeft, setSecondsLeft] = useState(10);
+
+    const gameStatus = availableNums.length === 0 
+        ? 'won'
+        : secondsLeft === 0 ? 'lost' : 'active'
+
+    useEffect(() => {
+        if (secondsLeft > 0 && availableNums.length > 0) {
+            const timerId = setTimeout(() => {
+                setSecondsLeft(secondsLeft - 1);
+            }, 1000);
+            return () => clearTimeout(timerId); //sempre retornar uma função que limpa o useEffect!
+        }
+    });
 
     const candidatesAreWrong = utils.sum(candidateNums) > stars;
 
     const numberStatus = (number) => {
-        if(!availableNums.includes(number)) {
+        if (!availableNums.includes(number)) {
             return 'used';
         }
 
-        if(candidateNums.includes(number)) {
+        if (candidateNums.includes(number)) {
             return candidatesAreWrong ? 'wrong' : 'candidate';
         }
 
@@ -26,16 +39,16 @@ function StarMatch() {
     };
 
     const onNumberClick = (number, currentStatus) => {
-        if(currentStatus == 'used') {
+        if (currentStatus == 'used') {
             return;
         }
 
-        const newCandidateNums = 
-        currentStatus === 'available'
-            ? candidateNums.concat(number)
-            : candidateNums.filter(cn => cn !== number);
-        
-        if(utils.sum(newCandidateNums) !== stars) {
+        const newCandidateNums =
+            currentStatus === 'available'
+                ? candidateNums.concat(number)
+                : candidateNums.filter(cn => cn !== number);
+
+        if (utils.sum(newCandidateNums) !== stars) {
             setCandidateNums(newCandidateNums);
         } else {
             const newAvailableNums = availableNums.filter(
@@ -47,14 +60,6 @@ function StarMatch() {
         }
     };
 
-    const gameIsDone = availableNums.length === 0;
-
-    const resetGame = () => {
-        setStars(utils.random(1, 9));
-        setAvailableNums(utils.range(1, 9));
-        setCandidateNums([]);
-    }
-
     return (
         <div className="game">
             <div className="help">
@@ -63,27 +68,27 @@ function StarMatch() {
             <div className="body">
 
                 <div className="left">
-                    {gameIsDone 
-                        ? (<PlayAgain onClick={resetGame} />)
+                    {gameStatus !== 'active'
+                        ? (<PlayAgain onClick={props.startNewGame} gameStatus={gameStatus} />) //ajuda a reset o game
                         : (<StarsDisplay count={stars} />)
                     }
                 </div>
 
                 <div className="right">
                     {utils.range(1, 9).map(number =>
-                        <PlayNumber 
-                            key={number} 
+                        <PlayNumber
+                            key={number}
                             status={numberStatus(number)}
-                            number={number} 
+                            number={number}
                             onClick={onNumberClick} />)
                     }
                 </div>
             </div>
 
-            <div className="timer">Time Remaining: 10</div>
-        
+            <div className="timer">Time Remaining: {secondsLeft}</div>
+
         </div>
     )
 }
 
-export default StarMatch;
+export default Game;
