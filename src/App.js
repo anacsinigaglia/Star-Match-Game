@@ -1,11 +1,11 @@
 import React from 'react';
-import StarMach from './components/StarMatch/StarMach'
+import StarMatch from './components/StarMatch/StarMatch'
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <StarMach />
+      <StarMatch />
     </div>
   );
 }
