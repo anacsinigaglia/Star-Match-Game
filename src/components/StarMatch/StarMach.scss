@@ -20,6 +20,9 @@
 }
 
 .right {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   text-align: center;
   padding: 10px;
   width: 50%;
