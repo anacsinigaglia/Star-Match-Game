@@ -1,6 +1,7 @@
 .game {
-  max-width: 500px;
   margin: 0 auto;
+
+  max-width: 500px;
 }
 
 .body {
@@ -8,30 +9,33 @@
 }
 
 .help {
-  color: #666;
   margin: 10px;
+  color: #666;
   text-align: center;
 }
 
 .left {
-  text-align: center;
-  width: 50%;
   border: thin solid #ddd;
+  text-align: center;
+
+  width: 50%;
 }
 
 .right {
+  border: thin solid #ddd;
+  padding: 10px;
+  text-align: centser;
+  
+  width: 50%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  text-align: center;
-  padding: 10px;
-  width: 50%;
-  border: thin solid #ddd;
 }
 
 .star {
-  display: inline-block;
   margin: 0 15px;
+
+  display: inline-block;
 }
 
 .star:after {
@@ -40,29 +44,30 @@
 }
 
 .number {
+  border: thin solid #ddd;
+  margin: 10px;
   cursor: pointer;
   background-color: #eee;
-  border: thin solid #ddd;
-  width: 45px;
-  height: 45px;
-  margin: 10px;
   font-size: 25px;
+
+  height: 45px;
+  width: 45px;
 }
 
 .number:focus,
 .number:active {
-  outline: none;
   border: thin solid #ddd;
+  outline: none;
 }
 
 .timer {
-  color: #666;
   margin-top: 3px;
   margin-left: 3px;
+  color: #666;
 }
 
 .game-done .message {
+  margin: 15px;
   font-size: 250%;
   font-weight: bold;
-  margin: 15px;
 }
